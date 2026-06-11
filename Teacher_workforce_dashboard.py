@@ -48,9 +48,8 @@ if category == "Teacher Diversity":
         xaxis=dict(showgrid=False, linecolor="black", linewidth=1,
                 title_font=dict(family="Arial", size=13), tickfont=dict(family="Arial", size=12)),
         yaxis=dict(showgrid=False, linecolor="black", linewidth=1,
-                title_font=dict(family="Arial", size=13), tickfont=dict(family="Arial", size=12)),
-        width=700, height=400
-    )
+                title_font=dict(family="Arial", size=13), tickfont=dict(family="Arial", size=12))
+        )
 
     bipoc_line.update_traces(
         line=dict(width=2),
