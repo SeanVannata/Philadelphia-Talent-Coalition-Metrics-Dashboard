@@ -374,7 +374,7 @@ elif category == "Teacher Retention":
     #  Philadelphia County BIPOC Retention
     #---------------------------
 
-    # Filter to Black % metric
+    # Filter to BIPOC Retention % Metric
     bipoc_retention = metrics_data[metrics_data["metric"] == "retention_bipoc_yty"].copy()
 
     # Line chart
@@ -384,7 +384,7 @@ elif category == "Teacher Retention":
         y="value",
         markers=True,
         labels={"sy": "School Year", "value": "% of Teachers"},
-        title="% of Philadelphia County Teachers Retained"
+        title="% of Philadelphia County BIPOC Teachers Retained"
     )
 
     bipoc_retention_line.update_layout(
