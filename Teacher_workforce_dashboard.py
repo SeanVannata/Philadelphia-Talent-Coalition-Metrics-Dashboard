@@ -311,4 +311,56 @@ elif category == "New Teachers":
 
 elif category == "Teacher Retention":
     st.header("Teacher Retention")
-    # placeholder for now
+  #---------------------------
+    #  Philadelphia County Retention
+    #---------------------------
+
+    # Filter to Black % metric
+    phl_retention = metrics_data[metrics_data["metric"] == "retention_overall_yty"].copy()
+
+    # Line chart
+    phl_retention_line = px.line(
+        phl_retention,
+        x="sy",
+        y="value",
+        markers=True,
+        labels={"sy": "School Year", "value": "% of Teachers"},
+        title="% of Philadelphia County Teachers Retained"
+    )
+
+    phl_retention_line.update_layout(
+        yaxis_ticksuffix="%",
+        yaxis_range=[0, 100],
+        xaxis_title="School Year",
+        yaxis_title="% of Teachers",
+        plot_bgcolor="white",
+        paper_bgcolor="white",
+        font=dict(family="Arial", color="black"),
+        title_font=dict(family="Arial", size=18),
+        xaxis=dict(
+            showgrid=False,
+            linecolor="black",
+            linewidth=1,
+            title_font=dict(family="Arial", size=15, color="black"),
+            tickfont=dict(family="Arial", size=15, color="black")
+        ),
+        yaxis=dict(
+            showgrid=False,
+            linecolor="black",
+            linewidth=1,
+            title_font=dict(family="Arial", size=15, color="black"),
+            tickfont=dict(family="Arial", size=11, color="black")
+        ),
+        width=800,
+        height=400
+    )
+
+    phl_retention_line.update_traces(
+        line=dict(width=2),
+        mode="lines+markers+text",
+        text=phl_retention["value"].apply(lambda x: f"{x}%"),
+        textposition="top center",
+        textfont=dict(family="Arial", size=15, color="black")
+    )
+
+    st.plotly_chart(phl_retention_line)
