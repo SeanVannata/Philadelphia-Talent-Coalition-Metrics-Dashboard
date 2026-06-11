@@ -29,6 +29,16 @@ if category == "Teacher Diversity":
 
     bipoc = metrics_data[metrics_data["metric"] == "bipoc_pct"].copy()
 
+    # Metric card
+    latest_bipoc = bipoc.sort_values("sy").iloc[-1]["value"]
+    prev_bipoc = bipoc.sort_values("sy").iloc[-2]["value"]
+    delta_bipoc = round(latest_bipoc - prev_bipoc, 1)
+    st.metric(
+        label="% of Teachers Who Identify as BIPOC (Most Recent Year)",
+        value=f"{latest_bipoc}%",
+        delta=f"{delta_bipoc} pp vs. prior year"
+    )
+
     bipoc_line = px.line(
         bipoc,
         x="sy",
@@ -63,6 +73,7 @@ if category == "Teacher Diversity":
 
     st.caption("**Metric definition:** Classroom teachers who identify as American Indian/Alaskan Native, Asian, Black or African American, Hispanic/Latinx, Two or More Races, and Native Hawaiian / Pacific Islander in the PDE data set for Philadelphia schools. Teachers employed by a school/LEA will be counted as 1 for each unit of analysis teacher regardless of their FTE. [Data Source: PDE Professional Personnel Individual Staff Report](https://www.pa.gov/agencies/education/data-and-reporting/school-staff/professional-and-support-personnel)")
 
+    st.divider()
 
     #---------------------------
     #  Black % over time
