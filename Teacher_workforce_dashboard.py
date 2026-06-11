@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 import os
 
-st.title("Philadelphia Citywide Teacher Workforce Metrics")
+st.title("Philadelphia Citywide Talent Coalition Metrics")
 
 category = st.selectbox(
     "Select a category",
@@ -60,7 +60,7 @@ if category == "Teacher Diversity":
         textfont=dict(family="Arial", size=12, color="black")
     )
 
-    st.plotly_chart(bipoc_line)
+    st.plotly_chart(bipoc_line, use_container_width=True)
 
     st.caption("**Metric definition:** Classroom teachers who identify as American Indian/Alaskan Native, Asian, Black or African American, Hispanic/Latinx, Two or More Races, and Native Hawaiian / Pacific Islander in the PDE data set for Philadelphia schools. Teachers employed by a school/LEA will be counted as 1 for each unit of analysis teacher regardless of their FTE. [Data Source: PDE Professional Personnel Individual Staff Report](https://www.pa.gov/agencies/education/data-and-reporting/school-staff/professional-and-support-personnel)")
 
@@ -317,7 +317,7 @@ elif category == "Teacher Retention":
     #  Philadelphia County Retention
     #---------------------------
 
-    # Filter to Black % metric
+    # Filter to Retention %
     phl_retention = metrics_data[metrics_data["metric"] == "retention_overall_yty"].copy()
 
     # Line chart
@@ -367,6 +367,62 @@ elif category == "Teacher Retention":
     )
 
     st.plotly_chart(phl_retention_line)
+
+
+    #---------------------------
+    #  Philadelphia County School-level Retention
+    #---------------------------
+
+    # Filter to School-level retention
+    phl_schl_retention = metrics_data[metrics_data["metric"] == "retention_school_level"].copy()
+
+    # Line chart
+    phl_schl_retention_line = px.line(
+        phl_schl_retention,
+        x="sy",
+        y="value",
+        markers=True,
+        labels={"sy": "School Year", "value": "% of Teachers"},
+        title="% of Philadelphia County Teachers Retained within School"
+    )
+
+    phl_schl_retention_line.update_layout(
+        yaxis_ticksuffix="%",
+        yaxis_range=[0, 100],
+        xaxis_title="School Year",
+        yaxis_title="% of Teachers",
+        margin=dict(t=60),   
+        plot_bgcolor="white",
+        paper_bgcolor="white",
+        font=dict(family="Arial", color="black"),
+        title_font=dict(family="Arial", size=18),
+        xaxis=dict(
+            showgrid=False,
+            linecolor="black",
+            linewidth=1,
+            title_font=dict(family="Arial", size=15, color="black"),
+            tickfont=dict(family="Arial", size=15, color="black")
+        ),
+        yaxis=dict(
+            showgrid=False,
+            linecolor="black",
+            linewidth=1,
+            title_font=dict(family="Arial", size=15, color="black"),
+            tickfont=dict(family="Arial", size=11, color="black")
+        ),
+        width=800,
+        height=400
+    )
+
+    phl_schl_retention_line.update_traces(
+        line=dict(width=2),
+        mode="lines+markers+text",
+        text=phl_schl_retention["value"].apply(lambda x: f"{x}%"),
+        textposition="top center",
+        textfont=dict(family="Arial", size=15, color="black")
+    )
+
+    st.plotly_chart(phl_schl_retention_line)
 
 
 
@@ -424,3 +480,61 @@ elif category == "Teacher Retention":
     )
 
     st.plotly_chart(bipoc_retention_line)
+
+
+
+    
+    #---------------------------
+    #  Philadelphia County New Retention
+    #---------------------------
+
+    # Filter to BIPOC Retention % Metric
+    new_retention = metrics_data[metrics_data["metric"] == "retention_new_yty"].copy()
+
+    # Line chart
+    new_retention_line = px.line(
+        new_retention,
+        x="sy",
+        y="value",
+        markers=True,
+        labels={"sy": "School Year", "value": "% of Teachers"},
+        title="% of Philadelphia County BIPOC Teachers Retained"
+    )
+
+    new_retention_line.update_layout(
+        yaxis_ticksuffix="%",
+        yaxis_range=[0, 100],
+        xaxis_title="School Year",
+        yaxis_title="% of Teachers",
+        margin=dict(t=60),   
+        plot_bgcolor="white",
+        paper_bgcolor="white",
+        font=dict(family="Arial", color="black"),
+        title_font=dict(family="Arial", size=18),
+        xaxis=dict(
+            showgrid=False,
+            linecolor="black",
+            linewidth=1,
+            title_font=dict(family="Arial", size=15, color="black"),
+            tickfont=dict(family="Arial", size=15, color="black")
+        ),
+        yaxis=dict(
+            showgrid=False,
+            linecolor="black",
+            linewidth=1,
+            title_font=dict(family="Arial", size=15, color="black"),
+            tickfont=dict(family="Arial", size=11, color="black")
+        ),
+        width=800,
+        height=400
+    )
+
+    new_retention_line.update_traces(
+        line=dict(width=2),
+        mode="lines+markers+text",
+        text=new_retention["value"].apply(lambda x: f"{x}%"),
+        textposition="top center",
+        textfont=dict(family="Arial", size=15, color="black")
+    )
+
+    st.plotly_chart(new_retention_line)
