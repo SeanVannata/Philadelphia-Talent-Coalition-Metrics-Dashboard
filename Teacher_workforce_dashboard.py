@@ -62,7 +62,7 @@ if category == "Teacher Diversity":
 
     st.plotly_chart(bipoc_line)
 
-
+    st.caption("**Metric definition:** Classroom teachers who identify as American Indian/Alaskan Native, Asian, Black or African American, Hispanic/Latinx, Two or More Races, and Native Hawaiian / Pacific Islander in the PDE data set for Philadelphia schools. Teachers employed by a school/LEA will be counted as 1 for each unit of analysis teacher regardless of their FTE. [Data Source: PDE Professional Personnel Individual Staff Report](https://www.pa.gov/agencies/education/data-and-reporting/school-staff/professional-and-support-personnel)")
 
 
     #---------------------------
