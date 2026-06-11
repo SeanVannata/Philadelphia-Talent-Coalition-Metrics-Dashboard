@@ -33,43 +33,48 @@ if category == "Teacher Diversity":
     latest_bipoc = bipoc.sort_values("sy").iloc[-1]["value"]
     prev_bipoc = bipoc.sort_values("sy").iloc[-2]["value"]
     delta_bipoc = round(latest_bipoc - prev_bipoc, 1)
-    st.metric(
-        label="% of Teachers Who Identify as BIPOC (Most Recent Year)",
-        value=f"{latest_bipoc}%",
-        delta=f"{delta_bipoc} pp vs. prior year"
-    )
 
-    bipoc_line = px.line(
-        bipoc,
-        x="sy",
-        y="value",
-        markers=True,
-        labels={"sy": "School Year", "value": "% of Teachers"},
-        title="% of Philadelphia County Teachers Who Identify as BIPOC"
-    )
+    col1, col2 = st.columns([3, 1])
 
-    bipoc_line.update_layout(
-        yaxis_ticksuffix="%",
-        yaxis_range=[25, 50],
-        plot_bgcolor="white",
-        paper_bgcolor="white",
-        font=dict(family="Arial", color="black"),
-        title_font=dict(family="Arial", size=16),
-        xaxis=dict(showgrid=False, linecolor="black", linewidth=1,
-                title_font=dict(family="Arial", size=13), tickfont=dict(family="Arial", size=12)),
-        yaxis=dict(showgrid=False, linecolor="black", linewidth=1,
-                title_font=dict(family="Arial", size=13), tickfont=dict(family="Arial", size=12))
+    with col1:
+        bipoc_line = px.line(
+            bipoc,
+            x="sy",
+            y="value",
+            markers=True,
+            labels={"sy": "School Year", "value": "% of Teachers"},
+            title="% of Philadelphia County Teachers Who Identify as BIPOC"
         )
 
-    bipoc_line.update_traces(
-        line=dict(width=2),
-        mode="lines+markers+text",
-        text=bipoc["value"].apply(lambda x: f"{x}%"),
-        textposition="top center",
-        textfont=dict(family="Arial", size=12, color="black")
-    )
+        bipoc_line.update_layout(
+            yaxis_ticksuffix="%",
+            yaxis_range=[25, 50],
+            plot_bgcolor="white",
+            paper_bgcolor="white",
+            font=dict(family="Arial", color="black"),
+            title_font=dict(family="Arial", size=16),
+            xaxis=dict(showgrid=False, linecolor="black", linewidth=1,
+                    title_font=dict(family="Arial", size=13), tickfont=dict(family="Arial", size=12)),
+            yaxis=dict(showgrid=False, linecolor="black", linewidth=1,
+                    title_font=dict(family="Arial", size=13), tickfont=dict(family="Arial", size=12))
+        )
 
-    st.plotly_chart(bipoc_line, use_container_width=True)
+        bipoc_line.update_traces(
+            line=dict(width=2),
+            mode="lines+markers+text",
+            text=bipoc["value"].apply(lambda x: f"{x}%"),
+            textposition="top center",
+            textfont=dict(family="Arial", size=12, color="black")
+        )
+
+        st.plotly_chart(bipoc_line, use_container_width=True)
+
+    with col2:
+        st.metric(
+            label="% BIPOC (Most Recent Year)",
+            value=f"{latest_bipoc}%",
+            delta=f"{delta_bipoc} pp vs. prior year"
+        )
 
     st.caption("**Metric definition:** Classroom teachers who identify as American Indian/Alaskan Native, Asian, Black or African American, Hispanic/Latinx, Two or More Races, and Native Hawaiian / Pacific Islander in the PDE data set for Philadelphia schools. Teachers employed by a school/LEA will be counted as 1 for each unit of analysis teacher regardless of their FTE. [Data Source: PDE Professional Personnel Individual Staff Report](https://www.pa.gov/agencies/education/data-and-reporting/school-staff/professional-and-support-personnel)")
 
