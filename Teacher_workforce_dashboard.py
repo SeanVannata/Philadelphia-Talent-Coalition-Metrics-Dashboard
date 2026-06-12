@@ -14,6 +14,8 @@ category = st.selectbox(
 url = "https://docs.google.com/spreadsheets/d/1U8vxh3-cKioR9kCUHXDNbtdBXmK8F0jv/export?format=xlsx"
 metrics_data = pd.read_excel(url)
 
+st.set_page_config(page_title="Philadelphia Teacher Workforce Dashboard", layout="wide")
+
 # -------------------------
 # -------------------------
 # DIVERSITY METRICS
