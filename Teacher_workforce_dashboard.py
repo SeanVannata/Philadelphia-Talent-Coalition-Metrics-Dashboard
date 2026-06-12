@@ -357,9 +357,9 @@ elif category == "Teacher Retention":
     phl_retention = metrics_data[metrics_data["metric"] == "retention_overall_yty"].copy()
 
     # Metric card
-    laatest_phl_retention = phl_retention.sort_values("sy").iloc[-1]["value"]
+    latest_phl_retention = phl_retention.sort_values("sy").iloc[-1]["value"]
     prev_phl_retention = phl_retention.sort_values("sy").iloc[-2]["value"]
-    delta_phl_retention = round(laatest_phl_retention - prev_phl_retention, 1)
+    delta_phl_retention = round(latest_phl_retention - prev_phl_retention, 1)
 
     col1, col2 = st.columns([4, 1])
 
