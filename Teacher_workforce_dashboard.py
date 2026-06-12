@@ -106,115 +106,167 @@ if category == "Teacher Diversity":
     # Filter to Black % metric
     black = metrics_data[metrics_data["metric"] == "black_pct"].copy()
 
-    # Line chart
-    black_line = px.line(
-        black,
-        x="sy",
-        y="value",
-        markers=True,
-        labels={"sy": "School Year", "value": "% of Teachers"},
-        title="% of Philadelphia County Teachers Who Identify as Black"
-    )
+    # Metric card
+    latest_black = black.sort_values("sy").iloc[-1]["value"]
+    prev_black = black.sort_values("sy").iloc[-2]["value"]
+    delta_black = round(latest_black - prev_black, 1)
 
-    black_line.update_layout(
-        yaxis_ticksuffix="%",
-        yaxis_range=[0, 60],
-        xaxis_title="School Year",
-        yaxis_title="% of Teachers",
-        plot_bgcolor="white",
-        paper_bgcolor="white",
-        font=dict(family="Arial", color="black"),
-        title_font=dict(family="Arial", size=18),
-        xaxis=dict(
-            showgrid=False,
-            linecolor="black",
-            linewidth=1,
-            title_font=dict(family="Arial", size=15, color="black"),
-            tickfont=dict(family="Arial", size=15, color="black")
-        ),
-        yaxis=dict(
-            showgrid=False,
-            linecolor="black",
-            linewidth=1,
-            title_font=dict(family="Arial", size=15, color="black"),
-            tickfont=dict(family="Arial", size=11, color="black")
-        ),
-        width=800,
-        height=400
-    )
+    col1, col2 = st.columns([4, 1])
 
-    black_line.update_traces(
-        line=dict(width=2),
-        mode="lines+markers+text",
-        text=black["value"].apply(lambda x: f"{x}%"),
-        textposition="top center",
-        textfont=dict(family="Arial", size=15, color="black")
-    )
+    with col1:
+        # Line chart
+        black_line = px.line(
+            black,
+            x="sy",
+            y="value",
+            markers=True,
+            labels={"sy": "School Year", "value": "% of Teachers"},
+            title="% of Philadelphia County Teachers Who Identify as Black"
+        )
 
-    st.plotly_chart(black_line)
+        black_line.update_layout(
+            yaxis_ticksuffix="%",
+            yaxis_range=[0, 60],
+            xaxis_title="School Year",
+            yaxis_title="% of Teachers",
+            plot_bgcolor="white",
+            paper_bgcolor="white",
+            font=dict(family="Arial", color="black"),
+            title_font=dict(family="Arial", size=18),
+            xaxis=dict(
+                showgrid=False,
+                linecolor="black",
+                linewidth=1,
+                title_font=dict(family="Arial", size=15, color="black"),
+                tickfont=dict(family="Arial", size=15, color="black")
+            ),
+            yaxis=dict(
+                showgrid=False,
+                linecolor="black",
+                linewidth=1,
+                title_font=dict(family="Arial", size=15, color="black"),
+                tickfont=dict(family="Arial", size=11, color="black")
+            ),
+            width=800,
+            height=400
+        )
 
+        black_line.update_traces(
+            line=dict(width=2),
+            mode="lines+markers+text",
+            text=black["value"].apply(lambda x: f"{x}%"),
+            textposition="top center",
+            textfont=dict(family="Arial", size=15, color="black")
+        )
 
+        st.plotly_chart(black_line)
+
+    with col2:
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.metric(
+            label="% Black Teachers (2025-2026)",
+            value=f"{latest_black}%",
+            delta=f"{delta_black} % points vs. prior year"
+        )
+
+    st.caption("**Metric definition:** The percentage of Philadelphia County classroom teachers who identify as Black or African American. [Data Source: PDE Professional Personnel Individual Staff Report](https://www.pa.gov/agencies/education/data-and-reporting/school-staff/professional-and-support-personnel)")
+
+    st.divider()
 
 
     #---------------------------
     #  Hispanic % over time
     #---------------------------
 
-    # Filter to Black % metric
+    # Filter to Hispanic % metric
     hispanic = metrics_data[metrics_data["metric"] == "hispanic_pct"].copy()
 
-    # Line chart
-    hispanic_line = px.line(
-        hispanic,
-        x="sy",
-        y="value",
-        markers=True,
-        labels={"sy": "School Year", "value": "% of Teachers"},
-        title="% of Philadelphia County Teachers Who Identify as Hispanic"
-    )
+    # Metric card
+    latest_hispanic = hispanic.sort_values("sy").iloc[-1]["value"]
+    prev_hispanic = hispanic.sort_values("sy").iloc[-2]["value"]
+    delta_hispanic = round(latest_hispanic - prev_hispanic, 1)
 
-    hispanic_line.update_layout(
-        yaxis_ticksuffix="%",
-        yaxis_range=[0, 60],
-        xaxis_title="School Year",
-        yaxis_title="% of Teachers",
-        plot_bgcolor="white",
-        paper_bgcolor="white",
-        font=dict(family="Arial", color="black"),
-        title_font=dict(family="Arial", size=18),
-        xaxis=dict(
-            showgrid=False,
-            linecolor="black",
-            linewidth=1,
-            title_font=dict(family="Arial", size=15, color="black"),
-            tickfont=dict(family="Arial", size=15, color="black")
-        ),
-        yaxis=dict(
-            showgrid=False,
-            linecolor="black",
-            linewidth=1,
-            title_font=dict(family="Arial", size=15, color="black"),
-            tickfont=dict(family="Arial", size=11, color="black")
-        ),
-        width=800,
-        height=400
-    )
+    col1, col2 = st.columns([4, 1])
 
-    hispanic_line.update_traces(
-        line=dict(width=2),
-        mode="lines+markers+text",
-        text=hispanic["value"].apply(lambda x: f"{x}%"),
-        textposition="top center",
-        textfont=dict(family="Arial", size=15, color="black")
-    )
+    with col1:
+        # Line chart
+        hispanic_line = px.line(
+            hispanic,
+            x="sy",
+            y="value",
+            markers=True,
+            labels={"sy": "School Year", "value": "% of Teachers"},
+            title="% of Philadelphia County Teachers Who Identify as Hispanic"
+        )
 
-    st.plotly_chart(hispanic_line)
+        hispanic_line.update_layout(
+            yaxis_ticksuffix="%",
+            yaxis_range=[0, 60],
+            xaxis_title="School Year",
+            yaxis_title="% of Teachers",
+            plot_bgcolor="white",
+            paper_bgcolor="white",
+            font=dict(family="Arial", color="black"),
+            title_font=dict(family="Arial", size=18),
+            xaxis=dict(
+                showgrid=False,
+                linecolor="black",
+                linewidth=1,
+                title_font=dict(family="Arial", size=15, color="black"),
+                tickfont=dict(family="Arial", size=15, color="black")
+            ),
+            yaxis=dict(
+                showgrid=False,
+                linecolor="black",
+                linewidth=1,
+                title_font=dict(family="Arial", size=15, color="black"),
+                tickfont=dict(family="Arial", size=11, color="black")
+            ),
+            width=800,
+            height=400
+        )
+
+        hispanic_line.update_traces(
+            line=dict(width=2),
+            mode="lines+markers+text",
+            text=hispanic["value"].apply(lambda x: f"{x}%"),
+            textposition="top center",
+            textfont=dict(family="Arial", size=15, color="black")
+        )
+
+        st.plotly_chart(hispanic_line)
+
+    with col2:
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.metric(
+            label="% Hispanic Teachers (2025-2026)",
+            value=f"{latest_hispanic}%",
+            delta=f"{delta_hispanic} % points vs. prior year"
+        )
+
+    st.caption("**Metric definition:** The percentage of Philadelphia County classroom teachers who identify as Hispanic. [Data Source: PDE Professional Personnel Individual Staff Report](https://www.pa.gov/agencies/education/data-and-reporting/school-staff/professional-and-support-personnel)")
+
+    st.divider()
 
 
 
 
 
-
+# -------------------------
+# -------------------------
+# NEW TEACHER METRICS
+# -------------------------
+# -------------------------
 
 elif category == "New Teachers":
 
@@ -227,108 +279,156 @@ elif category == "New Teachers":
     # Filter to New Hire
     new_hires = metrics_data[metrics_data["metric"] == "new_hires_total"].copy()
 
-    # Line chart
-    new_hires_line = px.line(
-        new_hires,
-        x="sy",
-        y="value",
-        markers=True,
-        labels={"sy": "School Year", "value": "Number of Teachers"},
-        title="Number of Newly Hired Teachers in Philadelphia County"
-    )
+    # Metric card
+    latest_new_hires = new_hires.sort_values("sy").iloc[-1]["value"]
+    prev_new_hires = new_hires.sort_values("sy").iloc[-2]["value"]
+    delta_new_hires = round(latest_new_hires - prev_new_hires, 1)
 
-    new_hires_line.update_layout(
-        yaxis_range=[0, 2000],
-        xaxis_title="School Year",
-        yaxis_title="# of Teachers",
-        plot_bgcolor="white",
-        paper_bgcolor="white",
-        font=dict(family="Arial", color="black"),
-        title_font=dict(family="Arial", size=18),
-        xaxis=dict(
-            showgrid=False,
-            linecolor="black",
-            linewidth=1,
-            title_font=dict(family="Arial", size=15, color="black"),
-            tickfont=dict(family="Arial", size=15, color="black")
-        ),
-        yaxis=dict(
-            showgrid=False,
-            linecolor="black",
-            linewidth=1,
-            title_font=dict(family="Arial", size=15, color="black"),
-            tickfont=dict(family="Arial", size=11, color="black")
-        ),
-        width=800,
-        height=400
-    )
+    col1, col2 = st.columns([4, 1])
 
-    new_hires_line.update_traces(
-        line=dict(width=2),
-        mode="lines+markers+text",
-        text=new_hires["value"],
-        textposition="top center",
-        textfont=dict(family="Arial", size=15, color="black")
-    )
+    with col1:
+        # Line chart
+        new_hires_line = px.line(
+            new_hires,
+            x="sy",
+            y="value",
+            markers=True,
+            labels={"sy": "School Year", "value": "Number of Teachers"},
+            title="Number of Newly Hired Teachers in Philadelphia County"
+        )
 
-    st.plotly_chart(new_hires_line)
+        new_hires_line.update_layout(
+            yaxis_range=[0, 2000],
+            xaxis_title="School Year",
+            yaxis_title="# of Teachers",
+            plot_bgcolor="white",
+            paper_bgcolor="white",
+            font=dict(family="Arial", color="black"),
+            title_font=dict(family="Arial", size=18),
+            xaxis=dict(
+                showgrid=False,
+                linecolor="black",
+                linewidth=1,
+                title_font=dict(family="Arial", size=15, color="black"),
+                tickfont=dict(family="Arial", size=15, color="black")
+            ),
+            yaxis=dict(
+                showgrid=False,
+                linecolor="black",
+                linewidth=1,
+                title_font=dict(family="Arial", size=15, color="black"),
+                tickfont=dict(family="Arial", size=11, color="black")
+            ),
+            width=800,
+            height=400
+        )
 
+        new_hires_line.update_traces(
+            line=dict(width=2),
+            mode="lines+markers+text",
+            text=new_hires["value"],
+            textposition="top center",
+            textfont=dict(family="Arial", size=15, color="black")
+        )
 
+        st.plotly_chart(new_hires_line)
+
+    with col2:
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.metric(
+            label="New Hires (2025-2026)",
+            value=f"{int(latest_new_hires):,}",
+            delta=f"{int(delta_new_hires):+,} vs. prior year"
+        )
+
+    st.caption("**Metric definition:** The number of Philadelphia County classroom teachers in their first year teaching in Philadelphia County. [Data Source: PDE Professional Personnel Individual Staff Report](https://www.pa.gov/agencies/education/data-and-reporting/school-staff/professional-and-support-personnel)")
+
+    st.divider()
 
 
     #---------------------------
     #  % New Hires BIPOC
     #---------------------------
 
-    # Filter to Black % metric
+    # Filter to BIPOC % metric
     new_hires_bipoc = metrics_data[metrics_data["metric"] == "new_hires_bipoc_pct"].copy()
 
-    # Line chart
-    new_bipoc_line = px.line(
-        new_hires_bipoc,
-        x="sy",
-        y="value",
-        markers=True,
-        labels={"sy": "School Year", "value": "% of Teachers"},
-        title="% of Philadelphia County New Hires Who Identify as BIPOC"
-    )
+    # Metric card
+    latest_new_hires_bipoc = new_hires_bipoc.sort_values("sy").iloc[-1]["value"]
+    prev_new_hires_bipoc = new_hires_bipoc.sort_values("sy").iloc[-2]["value"]
+    delta_new_hires_bipoc = round(latest_new_hires_bipoc - prev_new_hires_bipoc, 1)
 
-    new_bipoc_line.update_layout(
-        yaxis_ticksuffix="%",
-        yaxis_range=[0, 80],
-        xaxis_title="School Year",
-        yaxis_title="% of Teachers",
-        plot_bgcolor="white",
-        paper_bgcolor="white",
-        font=dict(family="Arial", color="black"),
-        title_font=dict(family="Arial", size=18),
-        xaxis=dict(
-            showgrid=False,
-            linecolor="black",
-            linewidth=1,
-            title_font=dict(family="Arial", size=15, color="black"),
-            tickfont=dict(family="Arial", size=15, color="black")
-        ),
-        yaxis=dict(
-            showgrid=False,
-            linecolor="black",
-            linewidth=1,
-            title_font=dict(family="Arial", size=15, color="black"),
-            tickfont=dict(family="Arial", size=11, color="black")
-        ),
-        width=800,
-        height=400
-    )
+    col1, col2 = st.columns([4, 1])
 
-    new_bipoc_line.update_traces(
-        line=dict(width=2),
-        mode="lines+markers+text",
-        text=new_hires_bipoc["value"].apply(lambda x: f"{x}%"),
-        textposition="top center",
-        textfont=dict(family="Arial", size=15, color="black")
-    )
+    with col1:
+        # Line chart
+        new_bipoc_line = px.line(
+            new_hires_bipoc,
+            x="sy",
+            y="value",
+            markers=True,
+            labels={"sy": "School Year", "value": "% of Teachers"},
+            title="% of Philadelphia County New Hires Who Identify as BIPOC"
+        )
 
-    st.plotly_chart(new_bipoc_line)
+        new_bipoc_line.update_layout(
+            yaxis_ticksuffix="%",
+            yaxis_range=[0, 80],
+            xaxis_title="School Year",
+            yaxis_title="% of Teachers",
+            plot_bgcolor="white",
+            paper_bgcolor="white",
+            font=dict(family="Arial", color="black"),
+            title_font=dict(family="Arial", size=18),
+            xaxis=dict(
+                showgrid=False,
+                linecolor="black",
+                linewidth=1,
+                title_font=dict(family="Arial", size=15, color="black"),
+                tickfont=dict(family="Arial", size=15, color="black")
+            ),
+            yaxis=dict(
+                showgrid=False,
+                linecolor="black",
+                linewidth=1,
+                title_font=dict(family="Arial", size=15, color="black"),
+                tickfont=dict(family="Arial", size=11, color="black")
+            ),
+            width=800,
+            height=400
+        )
+
+        new_bipoc_line.update_traces(
+            line=dict(width=2),
+            mode="lines+markers+text",
+            text=new_hires_bipoc["value"].apply(lambda x: f"{x}%"),
+            textposition="top center",
+            textfont=dict(family="Arial", size=15, color="black")
+        )
+
+        st.plotly_chart(new_bipoc_line)
+
+    with col2:
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.metric(
+            label="% BIPOC New Hires (2025-2026)",
+            value=f"{latest_new_hires_bipoc}%",
+            delta=f"{delta_new_hires_bipoc} % points vs. prior year"
+        )
+
+    st.caption("**Metric definition:** The percentage of newly hired Philadelphia County classroom teachers who identify as BIPOC. [Data Source: PDE Professional Personnel Individual Staff Report](https://www.pa.gov/agencies/education/data-and-reporting/school-staff/professional-and-support-personnel)")
+
+    st.divider()
 
 
 
@@ -517,108 +617,156 @@ elif category == "Teacher Retention":
     # Filter to BIPOC Retention % Metric
     bipoc_retention = metrics_data[metrics_data["metric"] == "retention_bipoc_yty"].copy()
 
-    # Line chart
-    bipoc_retention_line = px.line(
-        bipoc_retention,
-        x="sy",
-        y="value",
-        markers=True,
-        labels={"sy": "School Year", "value": "% of Teachers"},
-        title="% of Philadelphia County BIPOC Teachers Retained"
-    )
+    # Metric card
+    latest_bipoc_retention = bipoc_retention.sort_values("sy").iloc[-1]["value"]
+    prev_bipoc_retention = bipoc_retention.sort_values("sy").iloc[-2]["value"]
+    delta_bipoc_retention = round(latest_bipoc_retention - prev_bipoc_retention, 1)
 
-    bipoc_retention_line.update_layout(
-        yaxis_ticksuffix="%",
-        yaxis_range=[50, 100],
-        xaxis_title="School Year",
-        yaxis_title="% of Teachers",
-        margin=dict(t=60),   
-        plot_bgcolor="white",
-        paper_bgcolor="white",
-        font=dict(family="Arial", color="black"),
-        title_font=dict(family="Arial", size=18),
-        xaxis=dict(
-            showgrid=False,
-            linecolor="black",
-            linewidth=1,
-            title_font=dict(family="Arial", size=15, color="black"),
-            tickfont=dict(family="Arial", size=15, color="black")
-        ),
-        yaxis=dict(
-            showgrid=False,
-            linecolor="black",
-            linewidth=1,
-            title_font=dict(family="Arial", size=15, color="black"),
-            tickfont=dict(family="Arial", size=11, color="black")
-        ),
-        width=800,
-        height=400
-    )
+    col1, col2 = st.columns([4, 1])
 
-    bipoc_retention_line.update_traces(
-        line=dict(width=2),
-        mode="lines+markers+text",
-        text=bipoc_retention["value"].apply(lambda x: f"{x}%"),
-        textposition="top center",
-        textfont=dict(family="Arial", size=15, color="black")
-    )
+    with col1:
+        # Line chart
+        bipoc_retention_line = px.line(
+            bipoc_retention,
+            x="sy",
+            y="value",
+            markers=True,
+            labels={"sy": "School Year", "value": "% of Teachers"},
+            title="% of Philadelphia County BIPOC Teachers Retained"
+        )
 
-    st.plotly_chart(bipoc_retention_line)
+        bipoc_retention_line.update_layout(
+            yaxis_ticksuffix="%",
+            yaxis_range=[50, 100],
+            xaxis_title="School Year",
+            yaxis_title="% of Teachers",
+            margin=dict(t=60),
+            plot_bgcolor="white",
+            paper_bgcolor="white",
+            font=dict(family="Arial", color="black"),
+            title_font=dict(family="Arial", size=18),
+            xaxis=dict(
+                showgrid=False,
+                linecolor="black",
+                linewidth=1,
+                title_font=dict(family="Arial", size=15, color="black"),
+                tickfont=dict(family="Arial", size=15, color="black")
+            ),
+            yaxis=dict(
+                showgrid=False,
+                linecolor="black",
+                linewidth=1,
+                title_font=dict(family="Arial", size=15, color="black"),
+                tickfont=dict(family="Arial", size=11, color="black")
+            ),
+            width=800,
+            height=400
+        )
+
+        bipoc_retention_line.update_traces(
+            line=dict(width=2),
+            mode="lines+markers+text",
+            text=bipoc_retention["value"].apply(lambda x: f"{x}%"),
+            textposition="top center",
+            textfont=dict(family="Arial", size=15, color="black")
+        )
+
+        st.plotly_chart(bipoc_retention_line)
+
+    with col2:
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.metric(
+            label="% Retained (2025-2026)",
+            value=f"{latest_bipoc_retention}%",
+            delta=f"{delta_bipoc_retention} % points vs. prior year"
+        )
+
+    st.caption("**Metric definition:** The percentage of Philadelphia County BIPOC classroom teachers in a given year who continue to teach as a classroom teacher in Philadelphia County the following year. [Data Source: PDE Professional Personnel Individual Staff Report](https://www.pa.gov/agencies/education/data-and-reporting/school-staff/professional-and-support-personnel)")
+
+    st.divider()
 
 
-
-    
     #---------------------------
-    #  Philadelphia County New Retention
+    #  Philadelphia County New Teacher Retention
     #---------------------------
 
-    # Filter to BIPOC Retention % Metric
+    # Filter to New Teacher Retention % Metric
     new_retention = metrics_data[metrics_data["metric"] == "retention_new_yty"].copy()
 
-    # Line chart
-    new_retention_line = px.line(
-        new_retention,
-        x="sy",
-        y="value",
-        markers=True,
-        labels={"sy": "School Year", "value": "% of Teachers"},
-        title="% of Philadelphia County New Teachers Retained"
-    )
+    # Metric card
+    latest_new_retention = new_retention.sort_values("sy").iloc[-1]["value"]
+    prev_new_retention = new_retention.sort_values("sy").iloc[-2]["value"]
+    delta_new_retention = round(latest_new_retention - prev_new_retention, 1)
 
-    new_retention_line.update_layout(
-        yaxis_ticksuffix="%",
-        yaxis_range=[50, 100],
-        xaxis_title="School Year",
-        yaxis_title="% of Teachers",
-        margin=dict(t=60),   
-        plot_bgcolor="white",
-        paper_bgcolor="white",
-        font=dict(family="Arial", color="black"),
-        title_font=dict(family="Arial", size=18),
-        xaxis=dict(
-            showgrid=False,
-            linecolor="black",
-            linewidth=1,
-            title_font=dict(family="Arial", size=15, color="black"),
-            tickfont=dict(family="Arial", size=15, color="black")
-        ),
-        yaxis=dict(
-            showgrid=False,
-            linecolor="black",
-            linewidth=1,
-            title_font=dict(family="Arial", size=15, color="black"),
-            tickfont=dict(family="Arial", size=11, color="black")
-        ),
-        width=800,
-        height=400
-    )
+    col1, col2 = st.columns([4, 1])
 
-    new_retention_line.update_traces(
-        line=dict(width=2),
-        mode="lines+markers+text",
-        text=new_retention["value"].apply(lambda x: f"{x}%"),
-        textposition="top center",
-        textfont=dict(family="Arial", size=15, color="black")
-    )
+    with col1:
+        # Line chart
+        new_retention_line = px.line(
+            new_retention,
+            x="sy",
+            y="value",
+            markers=True,
+            labels={"sy": "School Year", "value": "% of Teachers"},
+            title="% of Philadelphia County New Teachers Retained"
+        )
 
-    st.plotly_chart(new_retention_line)
+        new_retention_line.update_layout(
+            yaxis_ticksuffix="%",
+            yaxis_range=[50, 100],
+            xaxis_title="School Year",
+            yaxis_title="% of Teachers",
+            margin=dict(t=60),
+            plot_bgcolor="white",
+            paper_bgcolor="white",
+            font=dict(family="Arial", color="black"),
+            title_font=dict(family="Arial", size=18),
+            xaxis=dict(
+                showgrid=False,
+                linecolor="black",
+                linewidth=1,
+                title_font=dict(family="Arial", size=15, color="black"),
+                tickfont=dict(family="Arial", size=15, color="black")
+            ),
+            yaxis=dict(
+                showgrid=False,
+                linecolor="black",
+                linewidth=1,
+                title_font=dict(family="Arial", size=15, color="black"),
+                tickfont=dict(family="Arial", size=11, color="black")
+            ),
+            width=800,
+            height=400
+        )
+
+        new_retention_line.update_traces(
+            line=dict(width=2),
+            mode="lines+markers+text",
+            text=new_retention["value"].apply(lambda x: f"{x}%"),
+            textposition="top center",
+            textfont=dict(family="Arial", size=15, color="black")
+        )
+
+        st.plotly_chart(new_retention_line)
+
+    with col2:
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.metric(
+            label="% Retained (2025-2026)",
+            value=f"{latest_new_retention}%",
+            delta=f"{delta_new_retention} % points vs. prior year"
+        )
+
+    st.caption("**Metric definition:** The percentage of Philadelphia County new classroom teachers (3 or fewer years of experience in Philadelphia County) in a given year who continue to teach as a classroom teacher in Philadelphia County the following year. [Data Source: PDE Professional Personnel Individual Staff Report](https://www.pa.gov/agencies/education/data-and-reporting/school-staff/professional-and-support-personnel)")
+
+    st.divider()
