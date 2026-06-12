@@ -16,6 +16,16 @@ metrics_data = pd.read_excel(url)
 
 st.set_page_config(page_title="Philadelphia Teacher Workforce Dashboard", layout="wide")
 
+st.markdown("""
+    <style>
+    .block-container {
+        max-width: 1100px;
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # -------------------------
 # -------------------------
 # DIVERSITY METRICS
