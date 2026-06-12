@@ -410,7 +410,7 @@ elif category == "Teacher Retention":
             textfont=dict(family="Arial", size=15, color="black")
         )
 
-        st.plotly_chart(phl_retention_line, use_container_width=True)v
+        st.plotly_chart(phl_retention_line, use_container_width=True)
 
     with col2:
         st.write("")  # pushes the metric down
@@ -421,7 +421,7 @@ elif category == "Teacher Retention":
         st.write("")
         st.metric(
             label="% Retained (2025-2026)",
-            value=f"{laatest_phl_retention}%",
+            value=f"{latest_phl_retention}%",
             delta=f"{delta_phl_retention} % points vs. prior year"
     )
         
@@ -559,7 +559,7 @@ elif category == "Teacher Retention":
         y="value",
         markers=True,
         labels={"sy": "School Year", "value": "% of Teachers"},
-        title="% of Philadelphia County BIPOC Teachers Retained"
+        title="% of Philadelphia County New Teachers Retained"
     )
 
     new_retention_line.update_layout(
