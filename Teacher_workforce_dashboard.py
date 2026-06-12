@@ -376,7 +376,7 @@ elif category == "Teacher Retention":
 
         phl_retention_line.update_layout(
             yaxis_ticksuffix="%",
-            yaxis_range=[0, 100],
+            yaxis_range=[50, 100],
             xaxis_title="School Year",
             yaxis_title="% of Teachers",
             margin=dict(t=60),   
@@ -437,55 +437,78 @@ elif category == "Teacher Retention":
     # Filter to School-level retention
     phl_schl_retention = metrics_data[metrics_data["metric"] == "retention_school_level"].copy()
 
-    # Line chart
-    phl_schl_retention_line = px.line(
-        phl_schl_retention,
-        x="sy",
-        y="value",
-        markers=True,
-        labels={"sy": "School Year", "value": "% of Teachers"},
-        title="% of Philadelphia County Teachers Retained within School"
+    # Metric card
+    latest_phl_schl_retention = phl_retention.sort_values("sy").iloc[-1]["value"]
+    prev_phl_schl_retention= phl_retention.sort_values("sy").iloc[-2]["value"]
+    delta_phl_schl_retention = round(latest_phl_schl_retention - prev_phl_schl_retention, 1)
+
+    col1, col2 = st.columns([4, 1])
+
+    with col1: 
+        # Line chart
+        phl_schl_retention_line = px.line(
+            phl_schl_retention,
+            x="sy",
+            y="value",
+            markers=True,
+            labels={"sy": "School Year", "value": "% of Teachers"},
+            title="% of Philadelphia County Teachers Retained within School"
+        )
+
+        phl_schl_retention_line.update_layout(
+            yaxis_ticksuffix="%",
+            yaxis_range=[50, 100],
+            xaxis_title="School Year",
+            yaxis_title="% of Teachers",
+            margin=dict(t=60),   
+            plot_bgcolor="white",
+            paper_bgcolor="white",
+            font=dict(family="Arial", color="black"),
+            title_font=dict(family="Arial", size=18),
+            xaxis=dict(
+                showgrid=False,
+                linecolor="black",
+                linewidth=1,
+                title_font=dict(family="Arial", size=15, color="black"),
+                tickfont=dict(family="Arial", size=15, color="black")
+            ),
+            yaxis=dict(
+                showgrid=False,
+                linecolor="black",
+                linewidth=1,
+                title_font=dict(family="Arial", size=15, color="black"),
+                tickfont=dict(family="Arial", size=11, color="black")
+            ),
+            width=800,
+            height=400
+        )
+
+        phl_schl_retention_line.update_traces(
+            line=dict(width=2),
+            mode="lines+markers+text",
+            text=phl_schl_retention["value"].apply(lambda x: f"{x}%"),
+            textposition="top center",
+            textfont=dict(family="Arial", size=15, color="black")
+        )
+
+        st.plotly_chart(phl_schl_retention_line)
+
+    with col2:
+        st.write("") 
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.metric(
+            label="% Retained (2025-2026)",
+            value=f"{latest_phl_schl_retention}%",
+            delta=f"{delta_phl_schl_retention} % points vs. prior year"
     )
+        
+    st.caption("**Metric definition:** The percentage of Philadelphia County classroom teachers in a given year who continue to teach as a classroom teacher in the same Philadelphia County school the following year. [Data Source: PDE Professional Personnel Individual Staff Report](https://www.pa.gov/agencies/education/data-and-reporting/school-staff/professional-and-support-personnel)")
 
-    phl_schl_retention_line.update_layout(
-        yaxis_ticksuffix="%",
-        yaxis_range=[0, 100],
-        xaxis_title="School Year",
-        yaxis_title="% of Teachers",
-        margin=dict(t=60),   
-        plot_bgcolor="white",
-        paper_bgcolor="white",
-        font=dict(family="Arial", color="black"),
-        title_font=dict(family="Arial", size=18),
-        xaxis=dict(
-            showgrid=False,
-            linecolor="black",
-            linewidth=1,
-            title_font=dict(family="Arial", size=15, color="black"),
-            tickfont=dict(family="Arial", size=15, color="black")
-        ),
-        yaxis=dict(
-            showgrid=False,
-            linecolor="black",
-            linewidth=1,
-            title_font=dict(family="Arial", size=15, color="black"),
-            tickfont=dict(family="Arial", size=11, color="black")
-        ),
-        width=800,
-        height=400
-    )
-
-    phl_schl_retention_line.update_traces(
-        line=dict(width=2),
-        mode="lines+markers+text",
-        text=phl_schl_retention["value"].apply(lambda x: f"{x}%"),
-        textposition="top center",
-        textfont=dict(family="Arial", size=15, color="black")
-    )
-
-    st.plotly_chart(phl_schl_retention_line)
-
-
+    st.divider() 
 
     #---------------------------
     #  Philadelphia County BIPOC Retention
@@ -506,7 +529,7 @@ elif category == "Teacher Retention":
 
     bipoc_retention_line.update_layout(
         yaxis_ticksuffix="%",
-        yaxis_range=[0, 100],
+        yaxis_range=[50, 100],
         xaxis_title="School Year",
         yaxis_title="% of Teachers",
         margin=dict(t=60),   
@@ -564,7 +587,7 @@ elif category == "Teacher Retention":
 
     new_retention_line.update_layout(
         yaxis_ticksuffix="%",
-        yaxis_range=[0, 100],
+        yaxis_range=[50, 100],
         xaxis_title="School Year",
         yaxis_title="% of Teachers",
         margin=dict(t=60),   
