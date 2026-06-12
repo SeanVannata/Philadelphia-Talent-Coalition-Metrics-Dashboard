@@ -34,7 +34,7 @@ if category == "Teacher Diversity":
     prev_bipoc = bipoc.sort_values("sy").iloc[-2]["value"]
     delta_bipoc = round(latest_bipoc - prev_bipoc, 1)
 
-    col1, col2 = st.columns([3, 1])
+    col1, col2 = st.columns([4, 1])
 
     with col1:
         bipoc_line = px.line(
@@ -48,7 +48,7 @@ if category == "Teacher Diversity":
 
         bipoc_line.update_layout(
             yaxis_ticksuffix="%",
-            yaxis_range=[25, 50],
+            yaxis_range=[25, 52],
             plot_bgcolor="white",
             paper_bgcolor="white",
             font=dict(family="Arial", color="black"),
@@ -64,7 +64,8 @@ if category == "Teacher Diversity":
             mode="lines+markers+text",
             text=bipoc["value"].apply(lambda x: f"{x}%"),
             textposition="top center",
-            textfont=dict(family="Arial", size=12, color="black")
+            textfont=dict(family="Arial", size=12, color="black"),
+            texttemplate="%{text}"
         )
 
         st.plotly_chart(bipoc_line, use_container_width=True)
