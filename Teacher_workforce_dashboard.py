@@ -73,8 +73,11 @@ if category == "Teacher Diversity":
         st.write("")  # pushes the metric down
         st.write("")
         st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
         st.metric(
-            label="% BIPOC (Most Recent Year)",
+            label="% BIPOC (2025-2026)",
             value=f"{latest_bipoc}%",
             delta=f"{delta_bipoc} pp vs. prior year"
     )
