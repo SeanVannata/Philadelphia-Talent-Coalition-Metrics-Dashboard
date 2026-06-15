@@ -76,7 +76,7 @@ if category == "Teacher Diversity":
             mode="lines+markers+text",
             text=bipoc["value"].apply(lambda x: f"{x}%"),
             textposition="top center",
-            textfont=dict(family="Arial", size=12, color="black"),
+            textfont=dict(family="Arial", size=15, color="black"),
             texttemplate="%{text}"
         )
 
