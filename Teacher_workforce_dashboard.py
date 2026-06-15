@@ -7,7 +7,7 @@ st.title("Philadelphia Citywide Talent Coalition Metrics")
 
 category = st.selectbox(
     "Select a category",
-    ["Teacher Diversity", "New Teachers", "Teacher Retention"]
+    ["Teacher Diversity", "New Teachers", "Teacher Retention", "Teacher Mobility: 2024-25 to 2025-26"]
 )
 
 # Load data
@@ -768,5 +768,114 @@ elif category == "Teacher Retention":
         )
 
     st.caption("**Metric definition:** The percentage of Philadelphia County new classroom teachers (3 or fewer years of experience in Philadelphia County) in a given year who continue to teach as a classroom teacher in Philadelphia County the following year. [Data Source: PDE Professional Personnel Individual Staff Report](https://www.pa.gov/agencies/education/data-and-reporting/school-staff/professional-and-support-personnel)")
+
+    st.divider()
+
+
+
+
+
+
+
+
+
+
+
+#---------------------------
+#  Teacher Mobility (2025-26)
+#---------------------------
+elif category == "Teacher Mobility: 2024-25 to 2025-26":
+
+    st.header("Teacher Mobility (2024-25 to 2025-26)")
+
+    import plotly.graph_objects as go
+
+    # N values
+    n_total        = 12567
+    n_retained     = 11103
+    n_left         = 1464
+    n_workforce    = 1085
+    n_phl_non_ct   = 236
+    n_pa_ct        = 130
+    n_pa_non_ct    = 13
+
+    # Nodes:
+    # 0: All 2024-25 Teachers
+    # 1: Stayed in PHL as Classroom Teacher
+    # 2: Left County Teaching Position
+    # 3: Left PA Educator Workforce
+    # 4: Stayed in PHL as non-Classroom Teacher
+    # 5: Left PHL as PA Classroom Teacher
+    # 6: Left PHL as PA non-Classroom Teacher
+
+    # Pre-calculate percentages
+    pct_retained    = round(n_retained / n_total * 100, 1)
+    pct_left        = round(n_left / n_total * 100, 1)
+    pct_workforce   = round(n_workforce / n_left * 100, 1)
+    pct_phl_non_ct  = round(n_phl_non_ct / n_left * 100, 1)
+    pct_pa_ct       = round(n_pa_ct / n_left * 100, 1)
+    pct_pa_non_ct   = round(n_pa_non_ct / n_left * 100, 1)
+
+    fig_sankey = go.Figure(go.Sankey(
+        arrangement="fixed",
+        node=dict(
+            pad=80,
+            thickness=35,
+            line=dict(color="black", width=0.5),
+            label=[
+                f"2024-25 PHL Classroom Teachers  n = {n_total:,}",
+                f"Stayed in PHL as Classroom Teacher  {pct_retained}%  n = {n_retained:,}",
+                f"Left County Teaching Position  {pct_left}%  n = {n_left:,}",
+                f"Left PA Educator Workforce  {pct_workforce}%  n = {n_workforce:,}",
+                f"Stayed in PHL as non-CT  {pct_phl_non_ct}%  n = {n_phl_non_ct:,}",
+                f"Left PHL as PA Classroom Teacher  {pct_pa_ct}%  n = {n_pa_ct:,}",
+                f"Left PHL as PA non-CT  {pct_pa_non_ct}%  n = {n_pa_non_ct:,}"
+            ],
+            color=[
+                "#2e5f8a",
+                "#1f4e79",
+                "#c55a11",
+                "#7b2d00",
+                "#d4622a",
+                "#e07b3a",
+                "#c8813a"
+            ],
+            x=[0.01, 0.99, 0.22, 0.99, 0.99, 0.99, 0.99],
+            y=[0.5, 0.11, 0.79, 0.6, 0.73, 0.82, 0.92],
+            hovertemplate="%{label}<extra></extra>"
+        ),
+        link=dict(
+            source=[0, 0, 2, 2, 2, 2],
+            target=[1, 2, 3, 4, 5, 6],
+            value=[n_retained, n_left, n_workforce, n_phl_non_ct, n_pa_ct, n_pa_non_ct],
+            color=[
+                "rgba(31, 78, 121, 0.2)",
+                "rgba(197, 90, 17, 0.2)",
+                "rgba(123, 45, 0, 0.2)",
+                "rgba(212, 98, 42, 0.2)",
+                "rgba(224, 123, 58, 0.2)",
+                "rgba(200, 129, 58, 0.2)"
+            ],
+            hovertemplate="%{source.label} → %{target.label}<extra></extra>"
+        ),
+        textfont=dict(family="Arial", size=15, color="black", weight=700)
+    ))
+
+    fig_sankey.update_layout(
+        font=dict(family="Arial", size=15, color="black"),
+        paper_bgcolor="white",
+        margin=dict(t=60, b=40, l=20, r=20),
+        height=650
+    )
+
+    st.plotly_chart(fig_sankey, width="stretch")
+
+    # N size callouts
+    st.markdown("""
+    **2024-25 counts:** 12,567 total Philadelphia County classroom teachers — 11,103 retained (88.4%), 1,464 left county teaching position (11.6%).  
+    **Among those who left:** 1,085 left PA entirely, 236 stayed in PHL as non-classroom teacher, 130 left PHL as PA classroom teacher, 13 left PHL as PA non-classroom teacher.
+    """)
+
+    st.caption("**Metric definition:** Destination categories for Philadelphia County classroom teachers from 2024-25 to 2025-26. [Data Source: PDE Professional Personnel Individual Staff Report](https://www.pa.gov/agencies/education/data-and-reporting/school-staff/professional-and-support-personnel)")
 
     st.divider()
