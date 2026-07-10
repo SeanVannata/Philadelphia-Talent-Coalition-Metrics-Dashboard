@@ -1,13 +1,37 @@
-name: Keep Streamlit App Active
-
+# .github/workflows/keepalive.yml
+name: Streamlit Keepalive
 on:
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: '0 */6 * * *'   # every 6 hours
   workflow_dispatch:
 
 jobs:
-  ping:
+  keepalive:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - name: Ping Streamlit app
-        run: curl -s -o /dev/null -w "%{http_code}\n" https://philadelphia-talent-coalition-metrics-dashboard.streamlit.app/
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          playwright install chromium --with-deps
+      - name: Visit and wake app
+        run: |
+          python -c "
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as p:
+              browser = p.chromium.launch()
+              page = browser.new_page()
+              page.goto('https://philadelphia-talent-coalition-metrics-dashboard.streamlit.app/', timeout=60000)
+              page.wait_for_timeout(5000)
+              # If sleeping, click the wake-up button
+              try:
+                  page.click('button:has-text(\"get this app back up\")', timeout=3000)
+                  page.wait_for_timeout(15000)
+              except:
+                  pass
+              browser.close()
+          "
